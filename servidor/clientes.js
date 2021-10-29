@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const { sequelize } = require('./db')
 
 const Clientes = sequelize.define("clientes", {
@@ -6,15 +6,10 @@ const Clientes = sequelize.define("clientes", {
   idade: { type: DataTypes.INTEGER },
   genero: { type: DataTypes.STRING },
 }, {
-    // If don't want createdAt
+    
     createdAt: false,
-    // If don't want updatedAt
+  
     updatedAt: false,
 });
-
-(async () => {
-  await sequelize.sync({ force: true });
-})();
-
-
+ 
 module.exports = { Clientes }
