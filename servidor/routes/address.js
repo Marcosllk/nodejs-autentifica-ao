@@ -1,43 +1,14 @@
 const { address } = require("./models/address");
-const userRoutes = require("./usuarios");
+const AddressRoutes = require("./usuarios");
 
-userRoutes.get("/address", async (req, res) => {
-  
+const { ListarAddress, EditarEndereços, AtualizarEndereços, DeletandoEndereços } = require('../controllers.address.js')
 
-userRoutes.post("/address", async (req, res) => {
-  const { pais, estado, cidade, cep, rua, bairro, numero } = req.body
-  await address.create({ pais, estado, cidade, cep, rua, bairro, numero })
-  return res.json({ mensagem: "endereço criado com sucesso" })
-})
+AddressRoutes.get("/address", ListarAddress)
 
-userRoutes.put("/address/:id", async (req, res) => {
-    const { id } = req.params;  // 1
-    const { pais, estado, cidade, cep, rua, bairro, numero } = req.body
+AddressRoutes.post("/address", EditarEndereços)
 
-  try {
-    await address.update(
-      { pais: pais, estado: estado, cidade: cidade, cep: cep, rua: rua, bairro: bairro, numero:numero }, 
-      { where: { id: id } })
+AddressRoutes.put("/address/:id", AtualizarEndereços)
 
-      return res.json({mensagem: "endereço atualizado"})
-  } catch (error) {
-    return res.json({mensagem: "endereço não foi atualizado" })
-  }
-})
+AddressRoutes.delete("/address/:id", DeletandoEndereços)
 
-
-userRoutes.delete("/address/:id", async (req, res) => {
-  const { id } = req.params;
-  const { pais, estado, cidade, cep, rua, bairro, numero  } = req.body
-
-try{
-  await Clientes.destroy( 
-      { where: { id: id } })
-  
-      return res.json({ mensagem: "endereço deletado" })
-} catch(error){
-  return res.json({ mensagem: "endereço não foi deletado" })
-  }
-})
-
-
+module.exports = AddressRoutes;
