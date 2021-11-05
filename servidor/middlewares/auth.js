@@ -1,11 +1,17 @@
-async function ValidarToken  (req, res, next) {
- const { token } = req.headers;
+const jwt = require('jsonwebtoken'); 
 
- if(token == 'invalido') {
-   return res.status(400).json({error: "Token inválido"})
- }
+async function TokenValido (req, res, next) {
+  const { token } = req.headers;
+  if(!token) {
+    return res.json({ message: "Token Invalido" })
+  }
+  const secret = "segredo"
+  try {
+    jwt.verify(token, secret)
+    next()
+  } catch (error) {
+    return res.json({ message: "Token Invalido"})
+  }
+}
 
- next();
-} 
-
-module.exports = ValidarToken
+module.exports = TokenValido;

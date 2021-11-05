@@ -9,12 +9,11 @@ const {
   Login,
   DeletarUsuario
 } = require("../controllers/usuarios.js");
-
-const ValidarToken  = require("../middlewares/auth.js")
+const TokenValido = require("../middlewares/auth.js");
 
 const userRoutes = express.Router();
 
-userRoutes.get("/", ValidarToken, ListarUsuarios);
+userRoutes.get("/", TokenValido, ListarUsuarios);
 
 userRoutes.post("/", CriarUsuario);
 

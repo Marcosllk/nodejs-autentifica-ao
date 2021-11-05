@@ -4,11 +4,10 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 async function ListarUsuarios (req, res) {
-  async (req, res) => {
     const data = await Clientes.findAll();
     return res.json({ data });
-  };
-}
+};
+
 
 async function CriarUsuario (req, res) {
   const { nome, genero, idade, senha } = req.body;
@@ -86,28 +85,30 @@ async function Login (req, res) {
 
   try {
     const cliente = await VerificarUsuario(usuario);
+    console.log(cliente)
     if (!usuario) {
       return res.json({ message: "Usuáriio não existe!"})
     }
-    const senhaValida = await VerificarSenha(senha, Cliente.senha)
+    const senhaValida = await VerificarSenha(senha, cliente.senha)
     if (!senhaValida) {
       return res.json({ message: "Senha Invalida"})
     }
     const token = await GerarToken(cliente.id, cliente.nome)
     return res.json({ message:"Token gerado com sucesso", usuario, token })
   }catch (error) { 
+    console.log(error)
     return res.json({ message: "erro no servidor!" })
   }
 }
-  async function VerificarUsuario(usuario) {
+async function VerificarUsuario(usuario) {
     try {
       const cliente = await cliente.findOne({ where: { nome: usuario }});
       return cliente;
     }catch (error) { 
         return false;
     }
-  }
-  async function VerificarSenha(senha, senhaHash) {
+}
+async function VerificarSenha(senha, senhaHash) {
   try {
     const senhaValida = await bcrypt.compare(senha, senhaHash)
 
